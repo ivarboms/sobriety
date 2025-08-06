@@ -53,9 +53,6 @@
         grid-column: 2;
         grid-row: 2;
     }
-    .icon-container img {
-        pointer-events: none;
-    }
     @keyframes scan {
         50% {
             transform: translateX(var(--end-x));
@@ -147,8 +144,12 @@
         }
     }
 
-    container.onmousedown = startScan;
-    container.onmouseup = endScan;
+    //container.onmousedown = startScan;
+    //container.onmouseup = endScan;
+
+    container.ontouchstart = startScan;
+    container.ontouchend = endScan;
+    container.ontouchcancel = endScan;
 
     //preventLongPressMenu(container);
     //preventLongPressMenu(container.querySelector('img'));
