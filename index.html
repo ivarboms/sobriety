@@ -46,6 +46,9 @@
         align-items: center;
         justify-items: center;
     }
+    .icon-container img {
+        pointer-events: none;
+    }
     @keyframes scan {
         50% {
             transform: translateX(var(--end-x));
@@ -121,6 +124,6 @@
     container.onmousedown = startScan;
     container.onmouseup = endScan;
 
-    preventLongPressMenu(container);
-    preventLongPressMenu(container.querySelector('img'));
+    //preventLongPressMenu(container);
+    //preventLongPressMenu(container.querySelector('img'));
 </script>
