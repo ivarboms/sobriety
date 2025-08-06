@@ -1,0 +1,107 @@
+<head>
+    <metax http-equiv="refresh" content="20" >
+</head>
+
+<div class="icon-container">
+    <div class="description"></div>
+
+    <img src="fingerprint.png" class="icon" />
+
+    <div class="scanner"></div>
+</div>
+
+<style>
+    :root {
+        --icon-width: 100px;
+        --scanner-width: 20px;
+        --end-x: calc(var(--icon-width) + var(--scanner-width) + 10px);
+    }
+
+    .icon {
+        width: var(--icon-width);
+        height: 100px;
+        grid-column: 2;
+        grid-row: 2;
+    }
+    .scanner {
+        grid-column: 2;
+        grid-row: 2;
+        background-color: #18c89b;
+        width: var(--scanner-width);
+        height: 120%;
+        justify-self: start;
+        box-shadow: 0px 0px 20px 5px rgba(45,255,196,0.9);
+        opacity: 0;
+        transition: 200ms;
+        margin-left: 50px;
+    }
+    .scanner.scanning {
+        animation: scan 1s linear infinite alternate;
+        opacity: 1;
+    }
+    .icon-container {
+        display: grid;
+        grid-template-columns: 1fr 250px 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+    }
+    @keyframes scan {
+        50% {
+            transform: translateX(var(--end-x));
+        }
+        50.1% {
+        transform: translateX(calc(var(--end-x) * 0.5)) translateY(calc(var(--end-x) * -0.5))
+            rotateZ(90deg);
+        }
+        100% {
+        transform: translateX(calc(var(--end-x) * 0.5)) translateY(calc(var(--end-x) * 0.5))
+            rotateZ(90deg);
+        }
+    }
+
+    .description {
+        white-space: pre-line;
+        grid-column: 2;
+        grid-row: 1;
+    }
+</style>
+
+<script>
+    const container = document.querySelector('.icon-container');
+    const text = document.querySelector('.description');
+    const scanner = document.querySelector('.scanner');
+    const scanningClassName = 'scanning';
+
+    const texts = [
+        'Scanning fingerprint',
+        'Analyzing DNA',
+        'Computing sobriety',
+        'Sobriety: Absolutely not',
+    ];
+    let currentTextIndex = -1;
+
+    const startScan = () => {
+        scanner.classList.add(scanningClassName);
+
+        text.replaceChildren();
+        currentTextIndex = -1;
+        updateTexts();
+    }
+    const endScan = () => scanner.classList.remove(scanningClassName);
+
+    async function updateTexts(delayMs = 1000) {
+        if (currentTextIndex < texts.length - 1) {
+            currentTextIndex++;
+            const line = document.createElement('div');
+            line.textContent = texts[currentTextIndex];
+            text.appendChild(line);
+            setTimeout(updateTexts, delayMs);
+        } else {
+            endScan();
+        }
+    }
+
+    container.onmousedown = startScan;
+    container.onmouseup = endScan;
+</script>
