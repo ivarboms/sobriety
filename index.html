@@ -4,20 +4,24 @@
 
 <div class="icon-container">
     <div class="fingerprint-image"></div>
-    <div class="scanner"></div>
+    <div class="scanner scanning"></div>
     <div class="description"></div>
 </div>
 
 <style>
     :root {
-        --icon-width: 100px;
-        --scanner-width: 20px;
-        --end-x: calc(var(--icon-width) + var(--scanner-width) + 10px);
+        --icon-width: 250px;
+        --scanner-width: calc(var(--icon-width) * 0.15);
+        --start-x: calc(0 - (var(--icon-width) + var(--scanner-width)));
+        --end-x: calc(var(--icon-width) - var(--scanner-width));
+
+        --base-offset: calc(var(--scanner-width) * -0.5);
+        --scan-offset: calc(var(--icon-width) * 0.5);
     }
 
     .icon {
         width: var(--icon-width);
-        height: 100px;
+        height: var(--icon-width);
         grid-column: 2;
         grid-row: 3;
     }
@@ -31,10 +35,10 @@
         box-shadow: 0px 0px 20px 5px rgba(45,255,196,0.9);
         opacity: 0;
         transition: 200ms;
-        margin-left: 50px;
+        margin-left: calc(var(--icon-width) * 0.5);
     }
     .scanner.scanning {
-        animation: scan 1s linear infinite alternate;
+        animation: scan 1.3s linear infinite alternate;
         opacity: 1;
     }
     .icon-container {
@@ -55,16 +59,21 @@
         grid-row: 3;
     }
     @keyframes scan {
+        0% {
+            transform: translateX(calc(var(--scan-offset) * -1.2));
+        }
         50% {
-            transform: translateX(var(--end-x));
+            transform: translateX(var(--scan-offset));
         }
         50.1% {
-        transform: translateX(calc(var(--end-x) * 0.5)) translateY(calc(var(--end-x) * -0.5))
-            rotateZ(90deg);
+            transform: translateX(var(--base-offset))
+                translateY(calc(var(--scan-offset)))
+                rotateZ(90deg);
         }
         100% {
-        transform: translateX(calc(var(--end-x) * 0.5)) translateY(calc(var(--end-x) * 0.5))
-            rotateZ(90deg);
+            transform: translateX(var(--base-offset))
+                translateY(calc(var(--scan-offset) * -1.2))
+                rotateZ(90deg);
         }
     }
 
