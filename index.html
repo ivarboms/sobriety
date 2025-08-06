@@ -19,11 +19,11 @@
         width: var(--icon-width);
         height: 100px;
         grid-column: 2;
-        grid-row: 2;
+        grid-row: 3;
     }
     .scanner {
         grid-column: 2;
-        grid-row: 2;
+        grid-row: 3;
         background-color: #18c89b;
         width: var(--scanner-width);
         height: 120%;
@@ -40,9 +40,10 @@
     .icon-container {
         display: grid;
         grid-template-columns: 1fr 250px 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-rows: 2fr 1fr 1fr;
         align-items: center;
         justify-items: center;
+        height: 95vh;
     }
     .fingerprint-image {
         background-image: url(fingerprint.png);
@@ -51,7 +52,7 @@
         width: var(--icon-width);
         height: var(--icon-width);
         grid-column: 2;
-        grid-row: 2;
+        grid-row: 3;
     }
     @keyframes scan {
         50% {
@@ -69,7 +70,7 @@
 
     .description {
         grid-column: 2;
-        grid-row: 3;
+        grid-row: 2;
     }
 
     body.flash {
