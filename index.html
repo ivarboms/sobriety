@@ -82,7 +82,7 @@
     .description {
         grid-column: 2;
         grid-row: 2;
-        font-size: 20px;
+        font-size: 40px;
     }
     h1 {
         display: grid;
@@ -90,6 +90,9 @@
         justify-self: center;
     }
 
+    body {
+        background-color: #999;
+    }
     body.flash {
         animation: 200ms flash linear;
         animation-iteration-count: 5;
@@ -99,7 +102,7 @@
             background-color: none;
         }
         50% {
-            background-color: #f77;
+            background-color: #f22;
         }
         100% {
             background-color: none;
@@ -134,7 +137,7 @@
         'Analyzing DNA',
         'Detecting substances',
         'Computing sobriety',
-        'Sobriety: Absolutely not',
+        'Sobriety not detected',
     ];
     let currentTextIndex = -1;
 
