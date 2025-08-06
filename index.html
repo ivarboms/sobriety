@@ -3,11 +3,9 @@
 </head>
 
 <div class="icon-container">
-    <div class="description"></div>
-
-    <img src="fingerprint.png" class="icon" />
-
+    <div class="fingerprint-image"></div>
     <div class="scanner"></div>
+    <div class="description"></div>
 </div>
 
 <style>
@@ -46,6 +44,15 @@
         align-items: center;
         justify-items: center;
     }
+    .fingerprint-image {
+        background-image: url(fingerprint.png);
+        background-size: contain;
+        display: block;
+        width: var(--icon-width);
+        height: var(--icon-width);
+        grid-column: 2;
+        grid-row: 2;
+    }
     .icon-container img {
         pointer-events: none;
     }
@@ -64,9 +71,23 @@
     }
 
     .description {
-        white-space: pre-line;
         grid-column: 2;
-        grid-row: 1;
+        grid-row: 3;
+    }
+
+    body.flash {
+        animation: 200ms flash linear;
+    }
+    @keyframes flash {
+        0% {
+            background-color: none;
+        }
+        50% {
+            background-color: #f77;
+        }
+        100% {
+            background-color: none;
+        }
     }
 </style>
 
@@ -95,6 +116,7 @@
     const texts = [
         'Scanning fingerprint',
         'Analyzing DNA',
+        'Detecting substances',
         'Computing sobriety',
         'Sobriety: Absolutely not',
     ];
@@ -107,7 +129,11 @@
         currentTextIndex = -1;
         updateTexts();
     }
-    const endScan = () => scanner.classList.remove(scanningClassName);
+    const endScan = () => {
+        scanner.classList.remove(scanningClassName);
+        document.body.classList.remove('flash');
+        document.body.classList.add('flash');
+    }
 
     async function updateTexts(delayMs = 1000) {
         if (currentTextIndex < texts.length - 1) {
