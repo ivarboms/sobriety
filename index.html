@@ -110,17 +110,16 @@
 
 <script>
     const container = document.querySelector('.icon-container');
-    const text = document.querySelector('.description');
+    const scanProgressOutput = document.querySelector('.description');
     const scanner = document.querySelector('.scanner');
     const fingerprint = document.querySelector('.fingerprint-image');
     const scanningClassName = 'scanning';
 
-    const texts = [
+    const scanProgressTexts = [
         'Scanning fingerprint',
         'Analyzing DNA',
         'Detecting substances',
-        'Computing sobriety',
-        'Sobriety not detected',
+        'Computing sobriety...',
     ];
     let currentTextIndex = -1;
     let updateTimerId = -1;
@@ -130,7 +129,8 @@
         scanner.classList.add(scanningClassName);
         isCurrentlyScanning = true;
 
-        text.replaceChildren();
+        // Remove any existing output.
+        scanProgressOutput.replaceChildren();
         currentTextIndex = -1;
         updateTexts();
     }
@@ -142,6 +142,8 @@
         scanner.classList.remove(scanningClassName);
         document.body.classList.add('flash');
 
+        outputResult()
+
         clearTimeout(updateTimerId);
 
         setTimeout(() => {
@@ -150,18 +152,42 @@
         }, 500);
     }
 
-    async function updateTexts(delayMs = 3000) {
-        if (currentTextIndex < texts.length - 1) {
-            const lastTextLine = text.querySelector('div:last-child');
-            if (lastTextLine) {
-                lastTextLine.textContent += ' ✅';
+    const sobrietyPercentage = () => {
+        const ratio = -0.4 + Math.random();
+        const percentage = ratio * 100;
+        return percentage.toFixed(1);
+    };
+    const addLine = (text) => {
+        const line = document.createElement('div');
+        line.textContent = text;
+        scanProgressOutput.appendChild(line);
+    };
+    const outputResult = () => {
+        // Is scan completed (is last preset message visible)?
+        const scanCompleted = currentTextIndex === scanProgressTexts.length - 1;
+        if (scanCompleted) {
+            const sobrietyResult = `Sobriety: ${sobrietyPercentage()}%`;
+            addLine(sobrietyResult);
+        } else {
+            addLine('Scan aborted. Please try again.');
+        }
+    };
+    const updateTexts = (delayMs = 2000) => {
+        const scanCompleted = currentTextIndex === scanProgressTexts.length - 1;
+        if (!scanCompleted) {
+            const lastLine = scanProgressOutput.querySelector('div:last-child');
+            if (lastLine) {
+                lastLine.textContent += ' ✅';
             }
+
+            // Show next progress text.
             currentTextIndex++;
-            const line = document.createElement('div');
-            line.textContent = texts[currentTextIndex];
-            text.appendChild(line);
-            if (currentTextIndex === texts.length - 1) {
-                endScan();
+            const text = scanProgressTexts[currentTextIndex];
+            addLine(text);
+
+            if (currentTextIndex === scanProgressTexts.length - 1) {
+                // All progress texts are visible.
+                updateTimerId = setTimeout(endScan, delayMs * 0.4);
             }
             updateTimerId = setTimeout(updateTexts, delayMs);
         }
