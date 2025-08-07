@@ -141,11 +141,8 @@
         }
         scanner.classList.remove(scanningClassName);
         document.body.classList.add('flash');
-        navigator.vibrate([
-            0, 50,
-            100, 50,
-            100, 50,
-        ]);
+        const result = navigator.vibrate(200);
+        document.querySelector('h1').textContent += 'vibrate: ' + result;
 
         clearTimeout(updateTimerId);
 
