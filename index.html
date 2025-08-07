@@ -138,6 +138,12 @@
         }
         scanner.classList.remove(scanningClassName);
         document.body.classList.add('flash');
+        navigator.vibrate([
+            0, 50,
+            100, 50,
+            100, 50,
+        ]);
+
         setTimeout(() => {
             document.body.classList.remove('flash');
             isCurrentlyScanning = false;
